@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ItemErrorResponse implements ItemResponse{
+public class OrderErrorResponse implements OrderResponse {
     private int errorCode;
     private String errorMessage;
 }
