@@ -1,5 +1,7 @@
 package lk.ijse.gdse.aad.posusingspring.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.persistence.EntityManagerFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +20,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan(basePackages = "lk.ijse.gdse.aad.posusingspring")
-@EnableJpaRepositories(basePackages ="lk.ijse.gdse.aad.posusingspring")
+@EnableJpaRepositories //(basePackages ="lk.ijse.gdse.aad.posusingspring")
 @EnableWebMvc
 @EnableTransactionManagement
 public class WebAppRootConfig {
@@ -54,5 +56,12 @@ public class WebAppRootConfig {
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory);
         return txManager;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
     }
 }

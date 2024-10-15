@@ -7,8 +7,11 @@ import lk.ijse.gdse.aad.posusingspring.exception.ItemNotFoundException;
 import lk.ijse.gdse.aad.posusingspring.service.ItemService;
 import lk.ijse.gdse.aad.posusingspring.util.AppUtil;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,14 +25,18 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @PostMapping
+    Logger logger = LoggerFactory.getLogger(ItemController.class);
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveItem(@RequestBody ItemDto itemDto){
+        logger.info("Request to save item {}", itemDto);
         if (itemDto == null) {
+            logger.warn("Received null itemDto for saving");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             try {
-                itemDto.setItemCode(AppUtil.createItemCode());
                 itemService.saveItem(itemDto);
+                logger.info("Successfully saved item: {}", itemDto);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (DataPersistFailedException e) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

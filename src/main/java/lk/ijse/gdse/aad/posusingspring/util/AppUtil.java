@@ -1,6 +1,6 @@
 package lk.ijse.gdse.aad.posusingspring.util;
 
-import java.util.Base64;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 public class AppUtil {
@@ -17,6 +17,14 @@ public class AppUtil {
 //    rofilePic(byte [] profilePic){
 //        return Base64.getEncoder().encodeToString(profilePic);
 //    }
+
+    public static String createOrderId(){
+        return "OR"+new Random().nextInt(10000);
+    }
+
+    public static LocalDateTime getCurrentDateTime(){
+        return LocalDateTime.now();
+    }
 
 }
 

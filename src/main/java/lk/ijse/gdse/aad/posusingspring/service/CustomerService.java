@@ -7,9 +7,9 @@ import lk.ijse.gdse.aad.posusingspring.dto.CustomerDto;
 import java.util.List;
 
 public interface CustomerService {
-    public void saveCustomer(CustomerDto customerDto);
-    public CustomerResponse getCustomer(String customerId);
-    public List<CustomerDto> getAllCustomers();
-    public void updateCustomer(String customerId, CustomerDto customerDto);
-    public void deleteCustomer(String customerId);
+     void saveCustomer(CustomerDto customerDto);
+     CustomerResponse getCustomer(String customerId);
+     List<CustomerDto> getAllCustomers();
+     void updateCustomer(String customerId, CustomerDto customerDto);
+     void deleteCustomer(String customerId);
 }

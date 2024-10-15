@@ -1,16 +1,18 @@
-package lk.ijse.gdse.aad.posusingspring.service;
+package lk.ijse.gdse.aad.posusingspring.service.Impl;
 
 import jakarta.transaction.Transactional;
 
-import lk.ijse.gdse.aad.posusingspring.customObj.CustomerErrorResponse;
+import lk.ijse.gdse.aad.posusingspring.customObj.Impl.CustomerErrorResponse;
 import lk.ijse.gdse.aad.posusingspring.customObj.CustomerResponse;
 import lk.ijse.gdse.aad.posusingspring.dao.CustomerDao;
 import lk.ijse.gdse.aad.posusingspring.dto.CustomerDto;
 import lk.ijse.gdse.aad.posusingspring.entity.Customer;
 import lk.ijse.gdse.aad.posusingspring.exception.CustomerNotFoundException;
 import lk.ijse.gdse.aad.posusingspring.exception.DataPersistFailedException;
+import lk.ijse.gdse.aad.posusingspring.service.CustomerService;
 import lk.ijse.gdse.aad.posusingspring.util.AppUtil;
 import lk.ijse.gdse.aad.posusingspring.util.Mapping;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,20 +21,21 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
-    private CustomerDao customerDao;
+    private final CustomerDao customerDao;
     @Autowired
-    private Mapping mapping;
+    private final Mapping mapping;
 
     @Override
     public void saveCustomer(CustomerDto customerDto) {
         if (customerDao.existsById(customerDto.getCustomerId())) {
             throw new DataPersistFailedException("This customer ID already exists!");
         }else {
-
-            Customer savedCustomer = customerDao.save(mapping.convertToEntity(customerDto));
+            customerDto.setCustomerId(AppUtil.createCusId());
+            Customer savedCustomer = customerDao.save(mapping.convertToCusEntity(customerDto));
             if (savedCustomer == null && savedCustomer.getCustomerId() == null) {
                 throw new DataPersistFailedException("Can't save the customer!");
             }
@@ -43,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponse getCustomer(String customerId) {
         if (customerDao.existsById(customerId)) {
-            return mapping.convertToDto(customerDao.getCustomerByCustomerId(customerId));
+            return mapping.convertToCusDto(customerDao.getCustomerByCustomerId(customerId));
         } else {
             return new CustomerErrorResponse(0, "Customer Not Found!");
         }
@@ -52,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDto> getAllCustomers() {
-        return mapping.convertToDtos(customerDao.findAll());
+        return mapping.convertToCusDtoList(customerDao.findAll());
     }
 
     @Override

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/customer")
+@RequestMapping("/api/v1/customer")
 @RequiredArgsConstructor
 @CrossOrigin
 public class CustomerController {
@@ -29,7 +29,7 @@ public class CustomerController {
     @Autowired
     private final CustomerService customerService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public ResponseEntity<Void> saveCustomer(@RequestBody CustomerDto customerDto){
         logger.info("Request to save customer {}", customerDto);
         if (customerDto == null) {
@@ -37,7 +37,7 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }else {
             try {
-                customerDto.setCustomerId(AppUtil.createCusId()) ;
+
                 customerService.saveCustomer(customerDto);
                 logger.info("Successfully saved customer: {}", customerDto);
                 return new ResponseEntity<>(HttpStatus.CREATED);

@@ -1,15 +1,18 @@
-package lk.ijse.gdse.aad.posusingspring.service;
+package lk.ijse.gdse.aad.posusingspring.service.Impl;
 
 import jakarta.transaction.Transactional;
 
-import lk.ijse.gdse.aad.posusingspring.customObj.ItemErrorResponse;
+import lk.ijse.gdse.aad.posusingspring.customObj.Impl.ItemErrorResponse;
 import lk.ijse.gdse.aad.posusingspring.customObj.ItemResponse;
 import lk.ijse.gdse.aad.posusingspring.dao.ItemDao;
 import lk.ijse.gdse.aad.posusingspring.dto.ItemDto;
 import lk.ijse.gdse.aad.posusingspring.entity.Item;
 import lk.ijse.gdse.aad.posusingspring.exception.DataPersistFailedException;
 import lk.ijse.gdse.aad.posusingspring.exception.ItemNotFoundException;
+import lk.ijse.gdse.aad.posusingspring.service.ItemService;
+import lk.ijse.gdse.aad.posusingspring.util.AppUtil;
 import lk.ijse.gdse.aad.posusingspring.util.Mapping;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,18 +21,20 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
     @Autowired
-    private ItemDao itemDao;
+    private final ItemDao itemDao;
     @Autowired
-    private Mapping mapping;
+    private final  Mapping mapping;
 
     @Override
     public void saveItem(ItemDto itemDto) {
         if (itemDao.existsById(itemDto.getItemCode())) {
             throw new DataPersistFailedException("This Item Code already exists!");
         }else {
-            Item savedItem = itemDao.save(mapping.convertToEntity(itemDto));
+            itemDto.setItemCode(AppUtil.createItemCode());
+            Item savedItem = itemDao.save(mapping.convertTItemEntity(itemDto));
             if (savedItem == null && savedItem.getItemCode() == null) {
                 throw new DataPersistFailedException("Can't save the Item!");
             }
@@ -52,7 +57,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemResponse getItem(String itemCode) {
         if (itemDao.existsById(itemCode)) {
-            return mapping.convertToDto(itemDao.getItemByItemCode(itemCode));
+            return mapping.convertToItemDto(itemDao.getItemByItemCode(itemCode));
         } else {
             return new ItemErrorResponse(0, "Item Not Found!");
         }
@@ -60,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> getAllItems() {
-        return mapping.convertToItemDtos(itemDao.findAll());
+        return mapping.convertToItemDtoList(itemDao.findAll());
     }
 
     @Override
