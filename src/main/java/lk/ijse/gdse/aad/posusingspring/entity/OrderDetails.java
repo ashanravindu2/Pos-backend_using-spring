@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class OrderDetails implements SuperEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderDetailsId;
+    private String orderDetailsId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", referencedColumnName = "orderId")
     private Orders order;

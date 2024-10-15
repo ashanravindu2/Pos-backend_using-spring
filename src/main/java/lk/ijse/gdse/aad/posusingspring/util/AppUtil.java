@@ -26,5 +26,9 @@ public class AppUtil {
         return LocalDateTime.now();
     }
 
+    public static String createOrderDetailsId(){
+        return "OD"+new Random().nextInt(10000);
+    }
+
 }
 
