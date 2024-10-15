@@ -6,6 +6,7 @@ import lk.ijse.gdse.aad.posusingspring.exception.DataPersistFailedException;
 import lk.ijse.gdse.aad.posusingspring.exception.ItemNotFoundException;
 import lk.ijse.gdse.aad.posusingspring.service.ItemService;
 import lk.ijse.gdse.aad.posusingspring.util.AppUtil;
+import lk.ijse.gdse.aad.posusingspring.util.Validation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/item")
+@RequestMapping("/api/v1/item")
 @RequiredArgsConstructor
 @CrossOrigin
 public class ItemController {
@@ -29,13 +30,13 @@ public class ItemController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveItem(@RequestBody ItemDto itemDto){
-        logger.info("Request to save item {}", itemDto);
-        if (itemDto == null) {
-            logger.warn("Received null itemDto for saving");
+        itemDto.setItemCode(AppUtil.createItemCode());
+        String validation = Validation.validationItem(itemDto);
+        logger.info("Request to save customer {}", itemDto);
+        if (validation.equals("Invalid")) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
+        }
             try {
-                itemDto.setItemCode(AppUtil.createItemCode());
                 itemService.saveItem(itemDto);
                 logger.info("Successfully saved item: {}", itemDto);
                 return new ResponseEntity<>(HttpStatus.CREATED);
@@ -45,26 +46,40 @@ public class ItemController {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-    }
+
 
     @PatchMapping("/{itemCode}")
     public ResponseEntity<Void> updateItem(@PathVariable ("itemCode") String itemCode, @RequestBody ItemDto itemDto){
-        itemService.updateItem(itemCode, itemDto);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        logger.info("Request to update item {}", itemDto);
+        String validation = Validation.validationItem(itemDto);
+        if (validation.equals("Invalid")) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        try {
+            itemService.updateItem(itemCode, itemDto);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (DataPersistFailedException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{itemCode}")
     public ItemResponse getItem(@PathVariable ("itemCode") String itemCode){
+        logger.info("Request to get item {}", itemCode);
         return itemService.getItem(itemCode);
     }
 
     @GetMapping
     public List<ItemDto> getAllItems(){
+        logger.info("Request to get all items");
         return itemService.getAllItems();
     }
 
     @DeleteMapping("/{itemCode}")
     public ResponseEntity<Void> deleteItem(@PathVariable ("itemCode") String itemCode) {
+        logger.info("Request to delete item {}", itemCode);
         try {
             itemService.deleteItem(itemCode);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

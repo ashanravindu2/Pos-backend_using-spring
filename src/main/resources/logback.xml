@@ -19,7 +19,7 @@
         <appender-ref ref="File"/>
     </root>
 
-    <logger name="lk.ijse.spring_pos_api" level="INFO" additivity="false">
+    <logger name="lk.ijse.spring_pos_api"   level="INFO" additivity="false">
         <appender-ref ref="Console"/>
         <appender-ref ref="File"/>
     </logger>

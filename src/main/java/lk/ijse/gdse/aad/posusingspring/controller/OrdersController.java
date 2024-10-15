@@ -23,6 +23,7 @@ public class OrdersController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createOrder( @RequestBody OrderDto orderDto) {
+        logger.info("Request to save order {}", orderDto);
         if (orderDto == null) {
             return ResponseEntity.badRequest().build();
         } else {

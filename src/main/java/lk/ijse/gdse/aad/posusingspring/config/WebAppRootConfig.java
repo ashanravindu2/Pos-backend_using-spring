@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan(basePackages = "lk.ijse.gdse.aad.posusingspring")
-@EnableJpaRepositories //(basePackages ="lk.ijse.gdse.aad.posusingspring")
+@EnableJpaRepositories
 @EnableWebMvc
 @EnableTransactionManagement
 public class WebAppRootConfig {
@@ -56,12 +56,5 @@ public class WebAppRootConfig {
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory);
         return txManager;
-    }
-
-    @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        return objectMapper;
     }
 }

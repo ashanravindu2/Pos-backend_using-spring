@@ -33,8 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
     public void saveCustomer(CustomerDto customerDto) {
         if (customerDao.existsById(customerDto.getCustomerId())) {
             throw new DataPersistFailedException("This customer ID already exists!");
-        }else {
-
+        }else{
             Customer savedCustomer = customerDao.save(mapping.convertToCusEntity(customerDto));
             if (savedCustomer == null && savedCustomer.getCustomerId() == null) {
                 throw new DataPersistFailedException("Can't save the customer!");
