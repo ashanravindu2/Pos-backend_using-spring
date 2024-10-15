@@ -33,7 +33,7 @@ public class WebAppRootConfig {
     public DataSource dataSource() {
        var dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/posSpringAAD68");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/posSpringAAD68?createDatabaseIfNotExist=true");
         dataSource.setUsername("root");
         dataSource.setPassword("ijse@1967");
         return dataSource;

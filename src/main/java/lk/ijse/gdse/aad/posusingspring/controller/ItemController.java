@@ -35,6 +35,7 @@ public class ItemController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             try {
+                itemDto.setItemCode(AppUtil.createItemCode());
                 itemService.saveItem(itemDto);
                 logger.info("Successfully saved item: {}", itemDto);
                 return new ResponseEntity<>(HttpStatus.CREATED);

@@ -33,7 +33,7 @@ public class ItemServiceImpl implements ItemService {
         if (itemDao.existsById(itemDto.getItemCode())) {
             throw new DataPersistFailedException("This Item Code already exists!");
         }else {
-            itemDto.setItemCode(AppUtil.createItemCode());
+
             Item savedItem = itemDao.save(mapping.convertTItemEntity(itemDto));
             if (savedItem == null && savedItem.getItemCode() == null) {
                 throw new DataPersistFailedException("Can't save the Item!");

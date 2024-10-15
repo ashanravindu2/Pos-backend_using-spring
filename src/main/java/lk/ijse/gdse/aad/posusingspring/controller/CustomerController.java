@@ -37,7 +37,7 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }else {
             try {
-
+                customerDto.setCustomerId(AppUtil.createCusId());
                 customerService.saveCustomer(customerDto);
                 logger.info("Successfully saved customer: {}", customerDto);
                 return new ResponseEntity<>(HttpStatus.CREATED);
