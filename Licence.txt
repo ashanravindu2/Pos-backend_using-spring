@@ -1,7 +1,7 @@
 
 MIT License
 
-Copyright (c) 2024 Ruwi B Dilshani
+Copyright (c) 2024 Ashan Ravindu Lakshitha
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
