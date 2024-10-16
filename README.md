@@ -46,7 +46,7 @@ Before running the project, ensure you have the following installed:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/ruwibdilshani/AAD_Phase02_Assignment.git
+   git clone https://github.com/ashanravindu2/Pos-backend_using-spring.git
    cd pos-system-backend
 
    ## 📚 Available API Endpoints
@@ -92,6 +92,6 @@ Before running the project, ensure you have the following installed:
 
 <div align="center">
 
-#### © 2024 All Right Reserved, Designed By [Ashan Ravindu Lakshitha] ()
+#### © 2024 All Right Reserved, Designed By [Ashan Ravindu Lakshitha] (https://github.com/ashanravindu2)
 
 </div>
