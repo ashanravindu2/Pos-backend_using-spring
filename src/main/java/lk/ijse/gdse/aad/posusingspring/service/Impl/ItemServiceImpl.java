@@ -45,13 +45,13 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void updateItem(String itemCode, ItemDto incomingItem) {
         Optional<Item> existItem = itemDao.findById(itemCode);
-        if (existItem == null) {
-            throw new ItemNotFoundException("Item not found!");
-        } else {
+//        if (existItem == null) {
+//            throw new ItemNotFoundException("Item not found!");
+//        } else {
             existItem.get().setItemName(incomingItem.getItemName());
             existItem.get().setItemQty(incomingItem.getItemQty());
             existItem.get().setItemPrice(incomingItem.getItemPrice());
-        }
+        //}
     }
 
     @Override

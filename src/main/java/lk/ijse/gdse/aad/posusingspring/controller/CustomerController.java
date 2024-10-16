@@ -64,19 +64,24 @@ public class CustomerController {
 
     @PatchMapping("/{customerId}")
     public ResponseEntity<Void> updateCustomer(@PathVariable ("customerId") String customerId, @RequestBody CustomerDto customerDto){
-        String validation = Validation.validationCustomer(customerDto);
-        if (validation.equals("Invalid")) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
+//        String validation = Validation.validationCustomer(customerDto);
+//        if (validation.equals("Invalid")) {
+//
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
         try {
             customerService.updateCustomer(customerId, customerDto);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (DataPersistFailedException e) {
+        } catch (DataPersistFailedException e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }catch (Exception e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @DeleteMapping("/{customerId}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable ("customerId") String customerId){

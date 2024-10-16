@@ -60,12 +60,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void updateCustomer(String customerId, CustomerDto incomeCustomerDto) {
         Optional<Customer> tmpCustomer = customerDao.findById(customerId);
-        if (!tmpCustomer.isPresent()) {
+        if (tmpCustomer.isEmpty()) {
             throw new CustomerNotFoundException("Customer Not Found!");
-        }else {
-            tmpCustomer.get().setCustomerName(incomeCustomerDto.getCustomerName());
-            tmpCustomer.get().setCustomerAddress(incomeCustomerDto.getCustomerAddress());
-            tmpCustomer.get().setCustomerSalary(incomeCustomerDto.getCustomerSalary());
+        } else {
+            Customer customer = tmpCustomer.get();
+            customer.setCustomerName(incomeCustomerDto.getCustomerName());
+            customer.setCustomerAddress(incomeCustomerDto.getCustomerAddress());
+            customer.setCustomerSalary(incomeCustomerDto.getCustomerSalary());
+
+            customerDao.save(customer);
         }
     }
 
