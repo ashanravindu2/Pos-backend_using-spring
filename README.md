@@ -86,7 +86,7 @@ Before running the project, ensure you have the following installed:
 
 ## API EndPoint Documentation
 
-### https://documenter.getpstman.com/view/36641894/2sAXxV4pXw
+### https://documenter.getpostman.com/view/35385633/2sAXxV5q48
 
 
 
